@@ -309,20 +309,25 @@ my-mod/
 ### Gradle `build.gradle` (for mod users)
 ```groovy
 plugins {
-    id 'fabric-loom' version '1.10-SNAPSHOT'
+    id 'fabric-loom' version '1.17.local' // Or your preferred version
 }
 
-// Apply the Python Mixin compiler (only if using @Mixin)
-apply from: "https://raw.githubusercontent.com/hellojaviergarcia/fabric-language-python/main/python-mixins.gradle"
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+}
+
+// Apply the local Python Mixin compiler (only if using @Mixin)
+apply from: "python-mixins.gradle"
 
 dependencies {
-    minecraft        "com.mojang:minecraft:26.2"
-    mappings         "net.fabricmc:yarn:26.2+build.1:v2"
-    modImplementation "net.fabricmc:fabric-loader:0.18.6"
-    modCompileOnly   "net.fabricmc.fabric-api:fabric-api:0.154.0+26.2"
+    minecraft "com.mojang:minecraft:26.2"
+    implementation "net.fabricmc:fabric-loader:0.19.3"
+    compileOnly "net.fabricmc.fabric-api:fabric-api:0.154.0+26.2"
 
-    // The Python Language Adapter
-    modImplementation "net.fabricmc:fabric-language-python:1.0.0+python.25.0.2"
+    // The Python Language Adapter (from local libs folder)
+    implementation "net.fabricmc:fabric-language-python:1.0.0+python.25.0.2"
 }
 ```
 
@@ -2057,7 +2062,7 @@ The framework **fully supports Mixins** — Python decorators are compiled to re
 
 Add to your `build.gradle`:
 ```groovy
-apply from: "https://raw.githubusercontent.com/hellojaviergarcia/fabric-language-python/main/python-mixins.gradle"
+apply from: "python-mixins.gradle"
 ```
 
 ### 23.2 Simple Injection (`@Inject`)
